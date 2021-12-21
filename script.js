@@ -1,5 +1,5 @@
 const criaTarefaButton = document.getElementById('criar-tarefa');
-const oderList = document.getElementById('lista-tarefas');
+const containerTasks = document.getElementById('lista-tarefas');
 const buttonApaga = document.getElementById('apaga-tudo');
 const finishied = document.getElementById('remover-finalizados');
 
@@ -21,15 +21,13 @@ function criaTarefa() {
   const lista = document.createElement('li');
   lista.className = 'item-list';
   lista.innerText = inputText.value;
-  oderList.appendChild(lista);
+  containerTasks.appendChild(lista);
   inputText.value = '';
 }
-criaTarefaButton.addEventListener('click', criaTarefa);
 
 function eraseAll() {
-  oderList.innerHTML = '';
+  containerTasks.innerHTML = '';
 }
-buttonApaga.addEventListener('click', eraseAll);
 // aih nobru apelãoooooooo
 function removeDone() {
   const selecionados = document.querySelectorAll('.completed');
@@ -47,7 +45,6 @@ function doneMarker(evento) {
     alvo.classList.add('completed');
   }
 }
-oderList.addEventListener('dblclick', doneMarker);
 
 // daqui pra baixo é bônus seu seboso
 const removeSelButton = document.getElementById('remover-selecionado');
@@ -56,30 +53,28 @@ const moveDownButton = document.getElementById('mover-baixo');
 
 document.addEventListener('click', (event) => {
   if (event.target.id === 'salvar-tarefas') {
-    localStorage.setItem('key', oderList.innerHTML);
+    localStorage.setItem('key', containerTasks.innerHTML);
   }
 });
-window.onload = function initialD() {
+window.onload = () => {
   if (localStorage.getItem('key') !== null) {
-    oderList.innerHTML += localStorage.getItem('key');
+    containerTasks.innerHTML += localStorage.getItem('key');
   }
 };
 
 function moveUp() {
   const selected = document.querySelector('.selected');
-  if (selected !== null && selected !== oderList.firstElementChild) {
-    oderList.insertBefore(selected, selected.previousSibling);
+  if (selected !== null && selected !== containerTasks.firstElementChild) {
+    containerTasks.insertBefore(selected, selected.previousSibling);
   }
 }
-moveUpButton.addEventListener('click', moveUp);
 
 function moveDown() {
   const selected = document.querySelector('.selected');
-  if (selected !== null && selected !== oderList.lastElementChild) {
-    oderList.insertBefore(selected.nextElementSibling, selected);
+  if (selected !== null && selected !== containerTasks.lastElementChild) {
+    containerTasks.insertBefore(selected.nextElementSibling, selected);
   }
 }
-moveDownButton.addEventListener('click', moveDown);
 
 function removeSelected() {
   const selecionados = document.querySelectorAll('.item-list');
@@ -90,3 +85,8 @@ function removeSelected() {
   }
 }
 removeSelButton.addEventListener('click', removeSelected);
+moveDownButton.addEventListener('click', moveDown);
+criaTarefaButton.addEventListener('click', criaTarefa);
+moveUpButton.addEventListener('click', moveUp);
+buttonApaga.addEventListener('click', eraseAll);
+containerTasks.addEventListener('dblclick', doneMarker);
