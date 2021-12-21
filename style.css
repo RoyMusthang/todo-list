@@ -8,5 +8,5 @@ body {
   text-decoration: line-through solid black;
 }
 .selected {
-  background-color: 'gray';
+  background-color: gray;
 }
